@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { clearAuth, login } from '../actions/auth';
 class Login extends React.Component {
   //   constructor() {
   //     super();
@@ -12,11 +15,16 @@ class Login extends React.Component {
       password: '',
     };
   }
+  componentWillUnmount() {
+    this.props.dispatch(clearAuth());
+  }
+
   handleFormSubmit = (e) => {
     e.preventDefault();
     // console.log(this.emailInputRef);
     // console.log(this.passwordInputRef.current.value);
-    console.log(this.state);
+    const { email, password } = this.state;
+    this.props.dispatch(login(email, password));
   };
   handleEmailState = (e) => {
     this.setState({
@@ -29,9 +37,14 @@ class Login extends React.Component {
     });
   };
   render() {
+    const { inProgress, error, isLoggedIn } = this.props.auth;
+    if (isLoggedIn) {
+      return <Redirect to="/" />;
+    }
     return (
       <form className="login-form">
         <span className="login-signup-header">Log In</span>
+        {error && <div className="alert error-dailog">{error}</div>}
         <div className="field">
           <input
             type="email"
@@ -50,11 +63,21 @@ class Login extends React.Component {
           />
         </div>
         <div className="field">
-          <button onClick={this.handleFormSubmit}>Log In</button>
+          {inProgress ? (
+            <button onClick={this.handleFormSubmit} disabled={inProgress}>
+              Logging In
+            </button>
+          ) : (
+            <button onClick={this.handleFormSubmit}>Log In</button>
+          )}
         </div>
       </form>
     );
   }
 }
-
-export default Login;
+function mapStatetoProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStatetoProps)(Login);
