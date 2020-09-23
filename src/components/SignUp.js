@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { signup } from '../actions/auth';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 class SignUp extends Component {
   constructor() {
     super();
@@ -36,6 +38,10 @@ class SignUp extends Component {
     signup(email, name, password, confirm_password);
   };
   render() {
+    const { isLoggedIn } = this.props.auth;
+    if (isLoggedIn) {
+      return <Redirect to="/" />;
+    }
     return (
       <form className="login-form">
         <span className="login-signup-header">Sign Up As A New User</span>
@@ -74,5 +80,9 @@ class SignUp extends Component {
     );
   }
 }
-
-export default SignUp;
+function mapStatToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStatToProps)(SignUp);
