@@ -13,15 +13,26 @@ import Home from './Home';
 import Page404 from './Page404';
 import Login from './Login';
 import Signup from './SignUp';
+import Setting from './Setting';
 import jwt_decode from 'jwt-decode';
-const setting = () => <div>Settings</div>;
 const PrivateRoute = (pvtRouteProps) => {
   const { isLoggedIn, path, component: Component } = pvtRouteProps;
   return (
     <Route
       path={path}
       render={(props) => {
-        return isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />;
+        return isLoggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: {
+                from: props.location,
+              },
+            }}
+          />
+        );
       }}
     />
   );
@@ -54,7 +65,7 @@ class App extends React.Component {
             <Route path="/register" component={Signup} />
             <PrivateRoute
               path="/settings"
-              component={setting}
+              component={Setting}
               isLoggedIn={auth.isLoggedIn}
             />
             <Route component={Page404} />

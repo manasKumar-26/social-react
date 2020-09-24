@@ -67,6 +67,29 @@ export function signup(email, name, password, confirm_password) {
       console.log(data);
     });
 }
+export function editUser(id, name, password, confirm_password) {
+  const url = apiurls.edit();
+  return (dispatch) => {
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+      body: getFormBody({ id, name, password, confirm_password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.success) {
+          localStorage.setItem('token', data.data.token);
+          dispatch(loginSuccess(data.data.user));
+        } else {
+          dispatch(loginfailed(data.message));
+        }
+      });
+  };
+}
 export function clearAuth() {
   return {
     type: CLEAR_AUTH_STATE,
