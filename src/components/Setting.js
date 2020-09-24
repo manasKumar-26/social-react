@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { editUser } from '../actions/auth';
+import { clearAuth, editUser } from '../actions/auth';
 class Setting extends React.Component {
   constructor(props) {
     super(props);
@@ -20,12 +20,12 @@ class Setting extends React.Component {
   changeProfile = () => {
     const { id, name, password, confirmPassword } = this.state;
     this.props.dispatch(editUser(id, name, password, confirmPassword));
-    this.setState({
-      editMode: false,
-    });
   };
+  componentWillUnmount() {
+    this.props.dispatch(clearAuth());
+  }
   render() {
-    const { user } = this.props.auth;
+    const { user, error } = this.props.auth;
     const { editMode } = this.state;
     console.log(this.state);
     return (
@@ -36,6 +36,8 @@ class Setting extends React.Component {
             alt="user-dp"
           />
         </div>
+        {error && <div className="alert error-dailog">{error}</div>}
+        {error === false && <div className="alert success-dailog">Updated</div>}
         <div className="field">
           <div className="field-label">Email</div>
           <div className="field-value">{user.email}</div>

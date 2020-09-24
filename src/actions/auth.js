@@ -6,6 +6,8 @@ import {
   LOGIN_SUCCESS,
   LOG_OUT,
   CLEAR_AUTH_STATE,
+  EDIT_SUCCESS,
+  EDIT_FAIL,
 } from './actionType';
 
 export function loginStart() {
@@ -28,6 +30,18 @@ export function loginSuccess(user) {
 export function logout() {
   return {
     type: LOG_OUT,
+  };
+}
+export function editSuccess(user) {
+  return {
+    type: EDIT_SUCCESS,
+    user,
+  };
+}
+export function editFail(error) {
+  return {
+    type: EDIT_FAIL,
+    error,
   };
 }
 export function login(email, password) {
@@ -83,9 +97,9 @@ export function editUser(id, name, password, confirm_password) {
         console.log(data);
         if (data.success) {
           localStorage.setItem('token', data.data.token);
-          dispatch(loginSuccess(data.data.user));
+          dispatch(editSuccess(data.data.user));
         } else {
-          dispatch(loginfailed(data.message));
+          dispatch(editFail(data.message));
         }
       });
   };

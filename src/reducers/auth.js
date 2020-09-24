@@ -4,6 +4,8 @@ import {
   LOGIN_START,
   LOGIN_SUCCESS,
   LOG_OUT,
+  EDIT_SUCCESS,
+  EDIT_FAIL,
 } from '../actions/actionType';
 
 const initialAuthState = {
@@ -37,6 +39,17 @@ export default function Auth(state = initialAuthState, action) {
         isLoggedIn: true,
         inProgress: false,
         error: null,
+      };
+    case EDIT_SUCCESS:
+      return {
+        ...state,
+        user: action.user,
+        error: false,
+      };
+    case EDIT_FAIL:
+      return {
+        ...state,
+        error: action.error,
       };
     case LOG_OUT: {
       return {
