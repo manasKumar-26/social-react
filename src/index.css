@@ -324,7 +324,6 @@ nav .nav-links ul li:hover {
   margin-top: 20px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
-  overflow-y: scroll;
 }
 .friends-list .header {
   border-bottom: 1px solid #e0e0e0;
@@ -351,6 +350,21 @@ nav .nav-links ul li:hover {
   font-size: 16px;
   line-height: 22px;
   text-decoration: none;
+}
+.friend-scroll {
+  overflow-y: scroll;
+}
+.friend-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.friend-scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.friend-scroll::-webkit-scrollbar-thumb {
+  background-color: #2f3035;
+  outline: 1px solid slategrey;
 }
 .friends-item:hover {
   cursor: pointer;

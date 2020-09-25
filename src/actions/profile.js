@@ -3,7 +3,6 @@ import {
   USER_PROFILE_SUCCESS,
   USER_PROFILE_FAIL,
   FETCH_PROFILE_START,
-  REMOVE_PROFILE,
 } from './actionType';
 export function userSuccess(user) {
   return {
@@ -22,11 +21,11 @@ export function fetchStart() {
     type: FETCH_PROFILE_START,
   };
 }
-export function removeProfile() {
-  return {
-    type: REMOVE_PROFILE,
-  };
-}
+// export function removeProfile() {
+//   return {
+//     type: REMOVE_PROFILE,
+//   };
+// }
 export function fetchProfile(id) {
   const url = apiurls.profile(id);
   return (dispatch) => {

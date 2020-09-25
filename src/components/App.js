@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { fetchPost } from '../actions/posts';
 import { loginSuccess } from '../actions/auth';
+import { fetchFriends } from '../actions/friend';
 import Navbar from './Navbar';
 import Home from './Home';
 import Page404 from './Page404';
@@ -45,6 +46,7 @@ class App extends React.Component {
     if (token) {
       const user = jwt_decode(token);
       this.props.dispatch(loginSuccess(user));
+      this.props.dispatch(fetchFriends());
     }
   }
   render() {
@@ -58,7 +60,9 @@ class App extends React.Component {
               exact
               path="/"
               render={(props) => {
-                return <Home posts={posts} {...props} />;
+                return (
+                  <Home posts={posts} isLoggedIn={auth.isLoggedIn} {...props} />
+                );
               }}
             />
             <Route path="/login" component={Login} />

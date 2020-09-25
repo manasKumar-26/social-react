@@ -2,7 +2,6 @@ import {
   USER_PROFILE_SUCCESS,
   USER_PROFILE_FAIL,
   FETCH_PROFILE_START,
-  REMOVE_PROFILE,
 } from '../actions/actionType';
 const initialState = {
   user: {},
@@ -23,7 +22,7 @@ export default function profile(state = initialState, action) {
     case USER_PROFILE_FAIL:
       return {
         ...state,
-        error: true,
+        error: action.error,
         inProgress: false,
       };
     case FETCH_PROFILE_START:
@@ -31,11 +30,11 @@ export default function profile(state = initialState, action) {
         ...state,
         inProgress: true,
       };
-    case REMOVE_PROFILE: {
-      return {
-        ...initialState,
-      };
-    }
+    // case REMOVE_PROFILE: {
+    //   return {
+    //     ...initialState,
+    //   };
+    // }
     default:
       return state;
   }
