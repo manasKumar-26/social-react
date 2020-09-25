@@ -26,7 +26,6 @@ class Friend extends React.Component {
         {friends && (
           <div className="friend-scroll">
             {friends.map((friend) => {
-              console.log(friend);
               return (
                 <div>
                   <Link

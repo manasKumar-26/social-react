@@ -6,5 +6,6 @@ export const apiurls = {
   profile: (id) => `${API_ROOT}users/${id}`,
   friends: () => `${API_ROOT}friendship/fetch_user_friends`,
   addfriend: (id) => `${API_ROOT}friendship/create_friendship?user_id=${id}`,
+  removeFriend: (id) => `${API_ROOT}friendship/remove_friendship?user_id=${id}`,
   posts: (page, limit) => `${API_ROOT}posts?page=${page}&limit=${limit}`,
 };

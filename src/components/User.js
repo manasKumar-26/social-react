@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchProfile } from '../actions/profile';
-import { addFriendRequest } from '../actions/friend';
+import {
+  addFriendRequest,
+  removeFriendStart,
+  fetchFriends,
+} from '../actions/friend';
+import { apiurls } from '../helpers/API-URL';
 class User extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchProfile(this.props.match.params.userid));
@@ -21,6 +26,21 @@ class User extends React.Component {
   addFriend = () => {
     console.log(this.props.profile.user._id);
     this.props.dispatch(addFriendRequest(this.props.profile.user._id));
+  };
+  removeFriend = async () => {
+    const userid = this.props.profile.user._id;
+    const url = apiurls.removeFriend(userid);
+    this.props.dispatch(removeFriendStart());
+    const object = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    };
+    const response = await fetch(url, object);
+    await response.json();
+    this.props.dispatch(fetchFriends());
   };
   render() {
     const { user, inProgress, error } = this.props.profile;
@@ -55,7 +75,9 @@ class User extends React.Component {
         </div>
         <div className="btn-grp">
           {this.checkIfUserIsAfriend() ? (
-            <button className="button save-btn">Remove Friend</button>
+            <button className="button save-btn" onClick={this.removeFriend}>
+              Remove Friend
+            </button>
           ) : (
             <button className="button save-btn" onClick={this.addFriend}>
               Add Friend

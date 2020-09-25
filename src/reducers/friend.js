@@ -2,6 +2,7 @@ import {
   ADD_FRIEND,
   FETCH_FRIENDS,
   FETCH_FRIENDS_START,
+  REMOVE_FRIEND,
 } from '../actions/actionType';
 const initialState = {
   friends: [],
@@ -17,6 +18,7 @@ export default function friends(state = initialState, action) {
         friends: action.friends,
         inProgress: false,
         addFriendsStart: false,
+        removingFriendStart: false,
       };
     case FETCH_FRIENDS_START:
       return {
@@ -27,6 +29,11 @@ export default function friends(state = initialState, action) {
       return {
         ...state,
         addFriendsStart: true,
+      };
+    case REMOVE_FRIEND:
+      return {
+        ...state,
+        removingFriendStart: true,
       };
 
     default:
