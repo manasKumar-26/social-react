@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 class PostsList extends Component {
   render() {
+    console.log(this.props);
     const { posts } = this.props;
     return (
       <div className="posts-list">
@@ -14,7 +16,9 @@ class PostsList extends Component {
                   alt="user-pic"
                 />
                 <div>
-                  <span className="post-author">{post.user.name}</span>
+                  <Link to={`/user/${post.user._id}`}>
+                    <span className="post-author">{post.user.name}</span>
+                  </Link>
                   <span className="post-time">a minute ago</span>
                 </div>
               </div>

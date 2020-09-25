@@ -14,6 +14,7 @@ import Page404 from './Page404';
 import Login from './Login';
 import Signup from './SignUp';
 import Setting from './Setting';
+import User from './User';
 import jwt_decode from 'jwt-decode';
 const PrivateRoute = (pvtRouteProps) => {
   const { isLoggedIn, path, component: Component } = pvtRouteProps;
@@ -41,7 +42,6 @@ class App extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchPost());
     const token = localStorage.getItem('token');
-    console.log(token);
     if (token) {
       const user = jwt_decode(token);
       this.props.dispatch(loginSuccess(user));
@@ -66,6 +66,11 @@ class App extends React.Component {
             <PrivateRoute
               path="/settings"
               component={Setting}
+              isLoggedIn={auth.isLoggedIn}
+            />
+            <PrivateRoute
+              path="/user/:userid"
+              component={User}
               isLoggedIn={auth.isLoggedIn}
             />
             <Route component={Page404} />
