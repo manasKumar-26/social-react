@@ -8,4 +8,6 @@ export const apiurls = {
   addfriend: (id) => `${API_ROOT}friendship/create_friendship?user_id=${id}`,
   removeFriend: (id) => `${API_ROOT}friendship/remove_friendship?user_id=${id}`,
   posts: (page, limit) => `${API_ROOT}posts?page=${page}&limit=${limit}`,
+  addPost: () => `${API_ROOT}posts/create`,
+  PostComment: () => `${API_ROOT}comments`,
 };

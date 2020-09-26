@@ -14,3 +14,6 @@ export const FETCH_FRIENDS = 'REMOVE_PROFILE';
 export const FETCH_FRIENDS_START = 'FETCH_FRIENDS_START';
 export const ADD_FRIEND = 'ADD_FRIEND';
 export const REMOVE_FRIEND = 'REMOVE_FRIEND';
+export const ADD_POST = 'ADD_POST';
+export const START_POSTING = 'START_POSTING';
+export const CREATE_COMMENT = 'CREATE_COMMENT';
