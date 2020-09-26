@@ -3,10 +3,12 @@ import PostsList from './PostsList';
 import Friend from './Friend';
 class Home extends Component {
   render() {
-    console.log(this.props);
     return (
       <div className="home">
-        <PostsList posts={this.props.posts} />
+        <PostsList
+          posts={this.props.posts}
+          isLoggedIn={this.props.isLoggedIn}
+        />
         {this.props.isLoggedIn && <Friend />}
       </div>
     );

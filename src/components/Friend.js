@@ -27,7 +27,7 @@ class Friend extends React.Component {
           <div className="friend-scroll">
             {friends.map((friend) => {
               return (
-                <div>
+                <div key={friend._id}>
                   <Link
                     className="friends-item"
                     to={`/user/${friend.to_user._id}`}

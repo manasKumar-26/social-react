@@ -3,6 +3,7 @@ import {
   ADD_POST,
   START_POSTING,
   CREATE_COMMENT,
+  POST_LIKE,
 } from './actionType';
 import { apiurls } from '../helpers/API-URL';
 import { getFormBody } from '../helpers/utilities';
@@ -75,6 +76,31 @@ export function createComment(post_id, content) {
       .then((data) => {
         console.log(data.data.comment);
         dispatch(addComment(data.data.comment, post_id));
+      });
+  };
+}
+export function postLike(post, user) {
+  return {
+    type: POST_LIKE,
+    user,
+    post,
+  };
+}
+export function postLikeToggle(post, likeType, user) {
+  const url = apiurls.toggleLike(post, likeType);
+  return (dispatch) => {
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          dispatch(postLike(post, user));
+        }
       });
   };
 }

@@ -21,10 +21,12 @@ class CreatePost extends React.Component {
   };
   render() {
     const { inProgress } = this.props.posts;
+    const { user } = this.props.auth;
     return (
       <div className="create-post">
         <textarea
           className="add-post"
+          placeholder={`What's on your mind ? ${user.name} !`}
           value={this.state.content}
           onChange={this.handleNewPost}
         />
@@ -38,9 +40,10 @@ class CreatePost extends React.Component {
     );
   }
 }
-function mapStateToProps({ posts }) {
+function mapStateToProps({ posts, auth }) {
   return {
     posts,
+    auth,
   };
 }
 export default connect(mapStateToProps)(CreatePost);

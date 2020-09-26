@@ -16,6 +16,7 @@ class Navbar extends React.Component {
           <Link to="/">
             <img
               src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
+              // src="https://cdn-images-1.listennotes.com/podcasts/socials-lifestyle-socials-lifestyle--7xqPjZ9Dn1-9fAUE5qJFKt.1400x1400.jpg"
               alt="logo"
             />
           </Link>
@@ -26,7 +27,7 @@ class Navbar extends React.Component {
             src="https://image.flaticon.com/icons/svg/483/483356.svg"
             alt="search-icon"
           />
-          <input placeholder="Search" />
+          <input placeholder="Search Socials" />
 
           <div className="search-results">
             <ul>

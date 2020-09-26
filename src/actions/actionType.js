@@ -17,3 +17,4 @@ export const REMOVE_FRIEND = 'REMOVE_FRIEND';
 export const ADD_POST = 'ADD_POST';
 export const START_POSTING = 'START_POSTING';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
+export const POST_LIKE = 'POST_LIKE';

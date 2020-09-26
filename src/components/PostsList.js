@@ -4,15 +4,14 @@ import Createpost from './CreatePost';
 import Post from './Post';
 class PostsList extends Component {
   render() {
-    const { posts } = this.props;
+    const { posts, isLoggedIn } = this.props;
     console.log(posts);
     return (
       <React.Fragment>
         <div className="posts-list">
-          <Createpost />
-
+          {isLoggedIn && <Createpost />}
           {posts.map((post) => (
-            <Post post={post} />
+            <Post post={post} key={post._id} />
           ))}
         </div>
       </React.Fragment>

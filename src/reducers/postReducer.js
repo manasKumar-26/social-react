@@ -3,6 +3,7 @@ import {
   ADD_POST,
   START_POSTING,
   CREATE_COMMENT,
+  POST_LIKE,
 } from '../actions/actionType';
 const initialState = {
   posts: [],
@@ -26,6 +27,20 @@ export default function posts(state = initialState, action) {
         inProgress: true,
       };
     }
+    case POST_LIKE:
+      const newLikedPost = state.posts.map((post) => {
+        if (post._id === action.post) {
+          return {
+            ...post,
+            likes: [action.user, ...post.likes],
+          };
+        }
+        return post;
+      });
+      return {
+        ...state,
+        posts: newLikedPost,
+      };
     case CREATE_COMMENT:
       const newPosts = state.posts.map((post) => {
         if (post._id === action.id) {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Comments from './Comments';
 import { connect } from 'react-redux';
-import { createComment } from '../actions/posts';
+import { createComment, postLikeToggle } from '../actions/posts';
 class Post extends Component {
   constructor() {
     super();
@@ -21,8 +21,15 @@ class Post extends Component {
       content: e.target.value,
     });
   };
+  toggleLike = () => {
+    console.log('liked');
+    const { post, user, dispatch } = this.props;
+    console.log(post, user);
+    dispatch(postLikeToggle(post._id, 'Post', user._id));
+  };
   render() {
-    const { post } = this.props;
+    const { post, user } = this.props;
+    const isLikedByUser = post.likes.includes(user._id);
     return (
       <div className="post-wrapper" key={post._id}>
         <div className="post-header">
@@ -44,10 +51,18 @@ class Post extends Component {
 
           <div className="post-actions">
             <div className="post-like">
-              <img
-                src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
-                alt="likes-icon"
-              />
+              <div onClick={this.toggleLike}>
+                {isLikedByUser ? (
+                  <div className="liked">
+                    <i class="fas fa-heart"></i>
+                  </div>
+                ) : (
+                  <div className="unliked">
+                    {' '}
+                    <i class="fas fa-heart"></i>
+                  </div>
+                )}
+              </div>
               <span>{post.likes.length}</span>
             </div>
 
@@ -70,15 +85,19 @@ class Post extends Component {
             </button>
           </div>
 
-          <div className="post-comments-list">
-            {post.comments.length !== 0 && (
+          {post.comments.length !== 0 && (
+            <div className="post-comments-list">
               <Comments comments={post.comments} />
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     );
   }
 }
-
-export default connect()(Post);
+function mapStateToProps({ auth }) {
+  return {
+    user: auth.user,
+  };
+}
+export default connect(mapStateToProps)(Post);
