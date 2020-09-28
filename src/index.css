@@ -194,6 +194,8 @@ code {
 }
 .post-comment-content {
   margin-top: 7px;
+  display: flex;
+  justify-content: space-between;
 }
 .post-comments-list .comment-like {
   position: absolute;
@@ -211,6 +213,12 @@ code {
 }
 .unliked {
   color: wheat;
+}
+.liked:hover {
+  cursor: pointer;
+}
+.unliked:hover {
+  cursor: pointer;
 }
 
 /* NAVBAR */

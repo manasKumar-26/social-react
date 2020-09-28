@@ -11,6 +11,9 @@ class Post extends Component {
     };
   }
   newComment = (post) => {
+    if (this.state.content === '') {
+      return;
+    }
     this.props.dispatch(createComment(post._id, this.state.content));
     this.setState({
       content: '',
@@ -58,7 +61,6 @@ class Post extends Component {
                   </div>
                 ) : (
                   <div className="unliked">
-                    {' '}
                     <i class="fas fa-heart"></i>
                   </div>
                 )}
@@ -87,7 +89,7 @@ class Post extends Component {
 
           {post.comments.length !== 0 && (
             <div className="post-comments-list">
-              <Comments comments={post.comments} />
+              <Comments post={post} />
             </div>
           )}
         </div>

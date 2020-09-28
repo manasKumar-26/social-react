@@ -4,6 +4,9 @@ import {
   START_POSTING,
   CREATE_COMMENT,
   POST_LIKE,
+  POST_DISLIKE,
+  COMMENT_LIKE,
+  COMMENT_DISLIKE,
 } from '../actions/actionType';
 const initialState = {
   posts: [],
@@ -27,6 +30,69 @@ export default function posts(state = initialState, action) {
         inProgress: true,
       };
     }
+    case COMMENT_LIKE: {
+      let newCommentLArray = state.posts.map((post) => {
+        if (post._id === action.post) {
+          return {
+            ...post,
+            comments: post.comments.map((comment) => {
+              if (comment._id === action.comment) {
+                return {
+                  ...comment,
+                  likes: [...comment.likes, action.user],
+                };
+              }
+              return comment;
+            }),
+          };
+        }
+        return post;
+      });
+      return {
+        ...state,
+        posts: newCommentLArray,
+      };
+    }
+    case COMMENT_DISLIKE:
+      let newCommentDArray = state.posts.map((post) => {
+        if (post._id === action.post) {
+          return {
+            ...post,
+            comments: post.comments.map((comment) => {
+              if ((comment._id = action.comment)) {
+                return {
+                  ...comment,
+                  likes: comment.likes.filter((like) => {
+                    return like !== action.user;
+                  }),
+                };
+              }
+              return comment;
+            }),
+          };
+        }
+        return post;
+      });
+      return {
+        ...state,
+        posts: newCommentDArray,
+      };
+    case POST_DISLIKE:
+      const newPostsArray = state.posts.map((post) => {
+        if (post._id === action.post) {
+          return {
+            ...post,
+            likes: post.likes.filter((like) => {
+              return like !== action.user;
+            }),
+          };
+        }
+        return post;
+      });
+      return {
+        ...state,
+        posts: newPostsArray,
+      };
     case POST_LIKE:
       const newLikedPost = state.posts.map((post) => {
         if (post._id === action.post) {

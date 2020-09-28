@@ -4,6 +4,9 @@ import {
   START_POSTING,
   CREATE_COMMENT,
   POST_LIKE,
+  POST_DISLIKE,
+  COMMENT_LIKE,
+  COMMENT_DISLIKE,
 } from './actionType';
 import { apiurls } from '../helpers/API-URL';
 import { getFormBody } from '../helpers/utilities';
@@ -86,6 +89,13 @@ export function postLike(post, user) {
     post,
   };
 }
+export function postDislike(post, user) {
+  return {
+    type: POST_DISLIKE,
+    user,
+    post,
+  };
+}
 export function postLikeToggle(post, likeType, user) {
   const url = apiurls.toggleLike(post, likeType);
   return (dispatch) => {
@@ -99,7 +109,49 @@ export function postLikeToggle(post, likeType, user) {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          dispatch(postLike(post, user));
+          if (data.data.deleted) {
+            dispatch(postDislike(post, user));
+          } else {
+            dispatch(postLike(post, user));
+          }
+        }
+      });
+  };
+}
+export function commentDislike(comment, user, post) {
+  return {
+    type: COMMENT_DISLIKE,
+    comment,
+    user,
+    post,
+  };
+}
+export function commentLike(comment, user, post) {
+  return {
+    type: COMMENT_LIKE,
+    comment,
+    user,
+    post,
+  };
+}
+export function commentToggleLike(comment, likeType, user, post) {
+  const url = apiurls.toggleLike(comment, likeType);
+  return (dispatch) => {
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${localStorage.token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          if (data.data.deleted) {
+            dispatch(commentDislike(comment, user, post));
+          } else {
+            dispatch(commentLike(comment, user, post));
+          }
         }
       });
   };
