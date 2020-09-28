@@ -13,9 +13,13 @@ class Comment extends React.Component {
       )
     );
   };
+  deleteComment = () => {
+    console.log(this.props.comment._id, ' deleted');
+  };
   render() {
     const { comment, user } = this.props;
     const isLiked = comment.likes.includes(user._id);
+    const isCommentedByUser = comment.user._id === user._id;
     return (
       <div className="post-comment-item" key={comment._id}>
         <div className="post-comment-header">
@@ -27,17 +31,33 @@ class Comment extends React.Component {
         </div>
         <div className="post-comment-content">
           {comment.content}
-          <div onClick={this.toggleLike}>
-            {isLiked ? (
-              <div className="liked">
-                <i class="fas fa-heart"></i>
+          {isLiked ? (
+            <div className="flex-c">
+              <div onClick={this.toggleLike}>
+                <div className="liked">
+                  <i class="fas fa-heart"></i>
+                </div>
               </div>
-            ) : (
-              <div className="unliked">
-                <i class="fas fa-heart"></i>
+              {isCommentedByUser && (
+                <div className="deleteButton" onClick={this.deleteComment}>
+                  <i class="fas fa-trash"></i>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex-c">
+              <div onClick={this.toggleLike}>
+                <div className="unliked">
+                  <i class="fas fa-heart"></i>
+                </div>
               </div>
-            )}
-          </div>
+              {isCommentedByUser && (
+                <div className="deleteButton" onClick={this.deleteComment}>
+                  <i class="fas fa-trash"></i>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );

@@ -2,14 +2,62 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
+import { apiurls } from '../helpers/API-URL';
 class Navbar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: '',
+      searchResults: [],
+      searchSucess: null,
+    };
+  }
+
   logout = () => {
     localStorage.removeItem('token');
     this.props.dispatch(logout());
   };
+  handleSearch = async (e) => {
+    if (e.key === 'Enter') {
+      const { content } = this.state;
+      if (content === '') {
+        return;
+      }
+      console.log('Pressed Enter');
+      const url = apiurls.searchProfile(content);
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+        },
+      });
+      const data = await response.json();
+      if (data.success) {
+        this.setState({
+          content: '',
+          searchResults: data.data.users,
+          searchSucess: true,
+        });
+      }
+    }
+  };
+  searchText = (e) => {
+    this.setState({
+      content: e.target.value,
+      searchResults: [],
+      searchSucess: false,
+    });
+  };
+  searchSuccessfull = () => {
+    this.setState({
+      searchResults: [],
+      searchSucess: false,
+    });
+  };
   render() {
     const { isLoggedIn, user } = this.props.auth;
-    console.log(user);
+    const { searchResults, searchSucess } = this.state;
+    const length = searchResults.length;
+    console.log(searchResults);
     return (
       <nav className="nav">
         <div className="left-div">
@@ -27,26 +75,39 @@ class Navbar extends React.Component {
             src="https://image.flaticon.com/icons/svg/483/483356.svg"
             alt="search-icon"
           />
-          <input placeholder="Search Socials" />
+          <input
+            placeholder="Search Socials"
+            onChange={this.searchText}
+            onKeyUp={this.handleSearch}
+            value={this.state.content}
+          />
 
-          <div className="search-results">
-            <ul>
-              <li className="search-results-row">
-                <img
-                  src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                  alt="user-dp"
-                />
-                <span>John Doe</span>
-              </li>
-              <li className="search-results-row">
-                <img
-                  src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                  alt="user-dp"
-                />
-                <span>John Doe</span>
-              </li>
-            </ul>
-          </div>
+          {searchSucess && (
+            <div className="search-results" onClick={this.searchSuccessfull}>
+              {length === 0 ? (
+                <ul>
+                  <li className="search-results-row">
+                    <span>No Users Found</span>
+                  </li>
+                </ul>
+              ) : (
+                <ul>
+                  {searchResults.map((user) => (
+                    <Link to={`/user/${user._id}`}>
+                      <li className="search-results-row">
+                        <img
+                          src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+                          alt="user-dp"
+                        />
+                        <span>{user.email} | </span>
+                        <span>{user.name}</span>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
         </div>
         <div className="right-nav">
           {isLoggedIn && (
