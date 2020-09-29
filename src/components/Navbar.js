@@ -12,7 +12,10 @@ class Navbar extends React.Component {
       searchSucess: null,
     };
   }
-
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevState);
+  //   console.log(this.state);
+  // }
   logout = () => {
     localStorage.removeItem('token');
     this.props.dispatch(logout());

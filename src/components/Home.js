@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PostsList from './PostsList';
 import Friend from './Friend';
+import Chat from './Chat';
 class Home extends Component {
   render() {
     return (
@@ -10,6 +11,7 @@ class Home extends Component {
           isLoggedIn={this.props.isLoggedIn}
         />
         {this.props.isLoggedIn && <Friend />}
+        {this.props.isLoggedIn && <Chat />}
       </div>
     );
   }
