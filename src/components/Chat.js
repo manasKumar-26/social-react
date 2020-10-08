@@ -35,6 +35,8 @@ class Chat extends Component {
       }
       this.setState({
         messages: [...messages, messageObj],
+      }, () => {
+        this.handleScroll()
       });
     });
   };
@@ -55,6 +57,9 @@ class Chat extends Component {
       );
     }
   };
+  handleScroll = () => {
+    document.getElementsByClassName('chat-messages')[0].scrollTop = document.getElementsByClassName('chat-messages')[0].scrollHeight
+  }
   render() {
     const { typedMessage, messages } = this.state;
     console.log(messages);
